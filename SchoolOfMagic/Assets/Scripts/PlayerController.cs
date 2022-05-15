@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private float shootTime;
     public float shootCD = 0.1f;
 
+    public Color shootColor = new Color(255 / 255f, 78 / 255f, 255 / 255f);
     private GameObject projectile_Normal_Ball;
 
     void Start()
@@ -40,8 +41,8 @@ public class PlayerController : MonoBehaviour
             GameObject go_0 = GameObject.Instantiate<GameObject>(projectile_Normal_Ball, leftArm_ShootPoint.position, Quaternion.identity);
             GameObject go_1 = GameObject.Instantiate<GameObject>(projectile_Normal_Ball, rightArm_ShootPoint.position, Quaternion.identity);
 
-            go_0.GetComponent<NormalBall>().Shooted(10f, Vector2.up);
-            go_1.GetComponent<NormalBall>().Shooted(10f, Vector2.up);
+            go_0.GetComponent<NormalBall>().ShootedAtDirection(10f, new Vector2(0.125f, 0.125f), Vector2.up, shootColor);
+            go_1.GetComponent<NormalBall>().ShootedAtDirection(10f, new Vector2(0.125f, 0.125f), Vector2.up, shootColor);
         }
     }
 
