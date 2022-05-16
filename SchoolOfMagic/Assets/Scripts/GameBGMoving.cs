@@ -7,6 +7,8 @@ public class GameBGMoving : MonoBehaviour
     private Transform m_Transform;
     private GameObject clouds;
 
+    public float speed = 5;
+
     void Start()
     {
         Init();
@@ -14,7 +16,7 @@ public class GameBGMoving : MonoBehaviour
 
     void FixedUpdate()
     {
-        m_Transform.Translate(-m_Transform.up / 50);
+        m_Transform.Translate(-m_Transform.up * speed * Time.fixedDeltaTime);
     }
 
     private void Init()
