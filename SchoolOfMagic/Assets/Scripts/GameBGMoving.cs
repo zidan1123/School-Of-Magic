@@ -5,13 +5,22 @@ using UnityEngine;
 public class GameBGMoving : MonoBehaviour
 {
     private Transform m_Transform;
-    private GameObject clouds;
+
+    public GameObject alternatingPicture;
 
     public float speed = 5;
 
     void Start()
     {
         Init();
+    }
+
+    private void Update()
+    {
+        if(m_Transform.position.y <= -32.35f)
+        {
+            m_Transform.position = alternatingPicture.transform.position + new Vector3(0, 27.69628f, 0);
+        }
     }
 
     void FixedUpdate()
@@ -22,16 +31,12 @@ public class GameBGMoving : MonoBehaviour
     private void Init()
     {
         m_Transform = gameObject.transform;
-        clouds = Resources.Load<GameObject>("Prefabs/Clouds");
 
-        CreateClouds();
-    }
-
-    private void CreateClouds()
-    {
-        for (int i = 0; i < 50; i++)
-        {
-            GameObject.Instantiate(clouds, new Vector3(-2.1f, 4995.25f + 24.75f * i, 0), Quaternion.identity, m_Transform);
-        }
+        string thisAlternatingPictureIndex =  gameObject.name.Substring(gameObject.name.Length - 1);
+        Debug.Log(thisAlternatingPictureIndex);
+        if (thisAlternatingPictureIndex == "0") 
+            alternatingPicture = GameObject.Find(gameObject.name.Substring(0, gameObject.name.Length - 1) + "1");
+        else
+            alternatingPicture = GameObject.Find(gameObject.name.Substring(0, gameObject.name.Length - 1) + "0");
     }
 }

@@ -7,12 +7,13 @@ public class Enemy_0_00 : MonoBehaviour
 {
     private Transform m_Transform;
 
+    public int row = 3;
+    public int column = 2;
+
     public float circleGunPointAngle = 30;   //圆形的枪口大小
     public float circleGunPointRadius = 0;  //圆形的枪口半径
 
-    public int row = 3;
-    public int column = 2;
-    [Range(0, 360)] public float sectorAngle = 45.0f;
+    [Range(0, 360)] public float sectorAngle = 45.0f;  //扩散角度的伞形区域
 
     private float spawnTime;
     public float shootDelay;
@@ -36,17 +37,34 @@ public class Enemy_0_00 : MonoBehaviour
     void Update()
     {
         //test
-        //if (Time.time > testTime + testCD)
-        //{
-        //    testTime = Time.time;
-        //    StartCoroutine("Shoot");
-        //}
-
-        if (Time.time > spawnTime + shootDelay && !isShootComplete)
+        if (Time.time > testTime + testCD)
         {
+            testTime = Time.time;
             StartCoroutine("Shoot");
-            isShootComplete = true;
         }
+
+        //if (Time.time > spawnTime + shootDelay && !isShootComplete)
+        //{
+        //    StartCoroutine("Shoot");
+        //    isShootComplete = true;
+        //}
+    }
+
+    /// <summary>
+    /// 设置该敌人的射击属性
+    /// </summary>
+    /// <param name="row">行数</param>
+    /// <param name="column">列数</param>
+    /// <param name="circleGunPointAngle">圆形的枪口大小</param>
+    /// <param name="circleGunPointRadius">圆形的枪口半径</param>
+    /// <param name="sectorAngle">扩散角度的伞形区域</param>
+    public void SetValue(int row, int column, int circleGunPointAngle, int circleGunPointRadius, float sectorAngle)
+    {
+        this.row = row;
+        this.column = column;
+        this.circleGunPointAngle = circleGunPointAngle;
+        this.circleGunPointRadius = circleGunPointRadius;
+        this.sectorAngle = sectorAngle;
     }
     
     /// <summary>
