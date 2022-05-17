@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         leftArm_ShootPoint = m_Transform.Find("Player_BodyComponents/Player_LeftArm/LeftArm_ShootPoint").GetComponent<Transform>();
         rightArm_ShootPoint = m_Transform.Find("Player_BodyComponents/Player_RightArm/RightArm_ShootPoint").GetComponent<Transform>();
 
-        projectile_Normal_Ball = Resources.Load<GameObject>("Prefabs/Normal_Ball");
+        projectile_Normal_Ball = Resources.Load<GameObject>("Prefabs/Projectile/Normal_Ball");
     }
 
     private void Update()
