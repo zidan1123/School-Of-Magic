@@ -39,8 +39,9 @@ public class NormalBall : MonoBehaviour
     public void ShootedAtDirection(float speed, Vector2 scale, Vector2 direction, Color color)
     {
         m_Transform.localScale = scale;
-        m_Transform.LookAt(m_Rigidbody2D.position + direction);
-        m_Transform.rotation = Quaternion.Euler(new Vector3(0, m_Transform.rotation.y, m_Transform.rotation.z));
+
+        //if(direction.x - )
+        m_Transform.rotation = Quaternion.Euler(new Vector3(0, 0, -Vector2.Angle(Vector2.up, direction)));
         m_SpriteRenderer.color = color;
         this.speed = speed;
         this.direction = direction;

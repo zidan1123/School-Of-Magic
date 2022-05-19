@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Enemy_0_00 : MonoBehaviour
+public class Enemy_0_01 : MonoBehaviour
 {
     private Transform m_Transform;
 
-    private Transform player_Transform;
-
     private int hp = 10;
 
-    public int row = 1;
-    public int column = 1;
+    public int row = 3;
+    public int column = 2;
 
     public float circleGunPointAngle = 30;   //圆形的枪口大小
     public float circleGunPointRadius = 0;  //圆形的枪口半径
 
-    [Range(0, 360)] public float sectorAngle = 45.0f;  //扩散角度的伞形区域
+    [Tooltip("Abs(sectorAngle) <= circleGunPointAngle, 不遵守也行，自行看效果。")][Range(-360, 360)] public float sectorAngle = 45.0f;  //扩散角度的伞形区域
 
     private float spawnTime;
     public float shootDelay;
@@ -31,7 +29,8 @@ public class Enemy_0_00 : MonoBehaviour
 
     #region 属性
     public int HP
-    {   get { return hp; }
+    {
+        get { return hp; }
         set
         {
             hp = value;
@@ -44,8 +43,6 @@ public class Enemy_0_00 : MonoBehaviour
     {
         m_Transform = gameObject.GetComponent<Transform>();
 
-        player_Transform = GameObject.Find("Player/Player_BodyAndBodyBorder").GetComponent<Transform>();
-        Debug.Log(player_Transform.gameObject.name);
         projectile_Normal_Ball = Resources.Load<GameObject>("Prefabs/Projectile/Normal_Ball");
 
         testTime = Time.time;
@@ -55,21 +52,20 @@ public class Enemy_0_00 : MonoBehaviour
     void Update()
     {
         //test
-        //if (Time.time > testTime + testCD)
-        //{
-        //    testTime = Time.time;
-        //    Shoot();
-        //}
-
-        if (Time.time > spawnTime + shootDelay && !isShootComplete)
+        if (Time.time > testTime + testCD)
         {
+            testTime = Time.time;
             Shoot();
-            isShootComplete = true;
         }
 
-        if (Mathf.Abs(m_Transform.localPosition.x) >= 4.325f) 
+        //if (Time.time > spawnTime + shootDelay && !isShootComplete)
+        //{
+        //    Shoot();
+        //    isShootComplete = true;
+        //}
+
+        if (Mathf.Abs(m_Transform.localPosition.x) >= 4.325f)
         {
-            Debug.Log("Enemy dead");
             DestroyItself();
         }
     }
@@ -97,26 +93,42 @@ public class Enemy_0_00 : MonoBehaviour
         this.HP = hp;
         m_Transform.localScale = scale;
     }
-    
+
     /// <summary>
     /// 散弹，三行两列
     /// </summary>
     private void Shoot() //此函数内部用世界坐标系(从上逆时针角度)计算
     {
-        float GunPointLeftAngle = ((180 - circleGunPointAngle) / 2) + 90;  //为了直接在Inspector面板调试，放在这里  //枪口最左边的角度(不是第一颗子弹发射的地方！)
+        float GunPointLeftAngle = ((180 - circleGunPointAngle) / 2) + 90;  //为了直接在Inspector面板调试，放在这里  //以上为0度，枪口最左边的角度(不是第一颗子弹发射的地方！)
         float columnsAngleDistance = circleGunPointAngle / (column + 1);   //为了直接在Inspector面板调试，放在这里
-        float sectorLeft = ((180 - sectorAngle) / 2) + 90;                 //为了直接在Inspector面板调试，放在这里
+        float sectorLeft = ((180 - sectorAngle) / 2) + 90;                 //为了直接在Inspector面板调试，放在这里  //扩散角度的伞形区域  //以上为0度，枪口最左边的角度(不是第一颗子弹发射的地方！)
         float sectorDistance = sectorAngle / (column + 1);                 //为了直接在Inspector面板调试，放在这里
 
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < column; j++)
             {
-                GameObject go = GameObject.Instantiate<GameObject>(projectile_Normal_Ball, m_Transform.position + GetCircleGunPoints(GunPointLeftAngle + columnsAngleDistance * (j + 1)), Quaternion.identity);
-                go.GetComponent<NormalBall>().ShootedAtDirection(3.5f - i * projectileBtwSpeed, new Vector2(0.15f, 0.15f), player_Transform.position - m_Transform.position, shootColor);
-                go.GetComponent<SpriteRenderer>().sortingLayerName = "EnemiesProjectile";
-                go.tag = "EnemiesProjectile";
+                if (circleGunPointAngle % 360 == 0) 
+                {
+                    GunPointLeftAngle = (360 / column) / 2;
+                    columnsAngleDistance = 360 / column;
+                    sectorLeft = (sectorAngle / column) / 2;
+                    sectorDistance = sectorAngle / column;
+
+                    GameObject go = GameObject.Instantiate<GameObject>(projectile_Normal_Ball, m_Transform.position + GetCircleGunPoints(GunPointLeftAngle + columnsAngleDistance * j), Quaternion.identity);
+                    go.GetComponent<NormalBall>().ShootedAtAngle(3.5f - i * projectileBtwSpeed, new Vector2(0.15f, 0.15f), sectorLeft + sectorDistance * j, shootColor);
+                    go.GetComponent<SpriteRenderer>().sortingLayerName = "EnemiesProjectile";
+                    go.tag = "EnemiesProjectile";
+                }
+                else
+                {
+                    GameObject go = GameObject.Instantiate<GameObject>(projectile_Normal_Ball, m_Transform.position + GetCircleGunPoints(GunPointLeftAngle + columnsAngleDistance * (j + 1)), Quaternion.identity);
+                    go.GetComponent<NormalBall>().ShootedAtAngle(3.5f - i * projectileBtwSpeed, new Vector2(0.15f, 0.15f), sectorLeft + sectorDistance * (j + 1), shootColor);
+                    go.GetComponent<SpriteRenderer>().sortingLayerName = "EnemiesProjectile";
+                    go.tag = "EnemiesProjectile";
+                }
             }
+            
         }
     }
 
@@ -146,3 +158,4 @@ public class Enemy_0_00 : MonoBehaviour
         GameObject.Destroy(gameObject);
     }
 }
+

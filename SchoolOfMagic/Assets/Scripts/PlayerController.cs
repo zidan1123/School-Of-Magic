@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
 
     private void Dead()
     {
-        GameObject.Destroy(gameObject);
+        gameObject.SetActive(false);
+        //GameObject.Destroy(gameObject);
     }
 }
