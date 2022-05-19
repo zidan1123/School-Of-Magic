@@ -10,6 +10,7 @@ public class NormalBall : MonoBehaviour
 
     private bool isMove;
     private float speed;
+    public int attack = 10;
     private Vector2 direction;
 
     void Awake()
@@ -21,7 +22,10 @@ public class NormalBall : MonoBehaviour
 
     void Update()
     {
-        
+        if (m_Transform.position.y <= -5.375f)
+        {
+            DestroyItself();
+        }
     }
 
     void FixedUpdate()
@@ -53,5 +57,24 @@ public class NormalBall : MonoBehaviour
         this.speed = speed;
 
         isMove = true;
+    }
+
+    private void DestroyItself()
+    {
+        GameObject.Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(gameObject.tag == "PlayerProjectile" && collision.gameObject.tag == "Enemy")
+        {
+            collision.SendMessage("Damaged", attack);
+            DestroyItself();
+        }
+
+        if (gameObject.tag == "EnemiesProjectile" && collision.gameObject.tag == "Player")
+        {
+            collision.SendMessageUpwards("Dead");
+        }
     }
 }

@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 7808127895342610676}
   - component: {fileID: 7808127895342610634}
   - component: {fileID: 7808127895342610633}
+  - component: {fileID: 1156705742}
   m_Layer: 0
   m_Name: Enemy_0_00_Left
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,10 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c155cfaa15e8af449b02ee2e153831a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  row: 1
+  column: 1
   circleGunPointAngle: 30
   circleGunPointRadius: 0
-  row: 3
-  column: 2
   sectorAngle: 45
   shootDelay: 0
   shootColor: {r: 0.15686275, g: 0.16862746, b: 1, a: 1}
@@ -123,7 +124,7 @@ MonoBehaviour:
   hasOnPlay: 0
   hasOnUpdate: 0
   hasOnStepComplete: 0
-  hasOnComplete: 0
+  hasOnComplete: 1
   hasOnTweenCreated: 0
   hasOnRewind: 0
   onStart:
@@ -140,7 +141,19 @@ MonoBehaviour:
       m_Calls: []
   onComplete:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7808127895342610634}
+        m_TargetAssemblyTypeName: Enemy_0_00, Assembly-CSharp
+        m_MethodName: DestroyItself
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onTweenCreated:
     m_PersistentCalls:
       m_Calls: []
@@ -417,7 +430,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  loops: -1
+  loops: 1
   id: 
   loopType: 0
   orientType: 0
@@ -426,7 +439,7 @@ MonoBehaviour:
   lookAhead: 0.01
   autoPlay: 1
   autoKill: 1
-  relative: 0
+  relative: 1
   isLocal: 1
   isClosedPath: 0
   pathResolution: 10
@@ -437,33 +450,33 @@ MonoBehaviour:
   upDirection: {x: 0, y: 1, z: 0}
   tweenRigidbody: 0
   wps:
-  - {x: -2.81, y: 2.5, z: 0}
-  - {x: -5.16, y: 1.3, z: 0}
-  - {x: -4.07, y: -0.47, z: 0}
-  - {x: 2.35, y: 0.64, z: 0}
+  - {x: -2.81, y: 2.4835, z: 0}
+  - {x: -5.16, y: 1.2835, z: 0}
+  - {x: -4.07, y: -0.48650002, z: 0}
+  - {x: 2.85, y: 0.6235, z: 0}
   fullWps: []
   path:
     wpLengths:
     - 0
-    - 2.5573347
+    - 2.5573351
     - 2.693812
-    - 2.4464366
-    - 6.5272064
+    - 2.4778607
+    - 7.0194945
     wps:
-    - {x: -3.54, y: 4.9, z: 0}
-    - {x: -2.81, y: 2.5, z: 0}
-    - {x: -5.16, y: 1.3, z: 0}
-    - {x: -4.07, y: -0.47, z: 0}
-    - {x: 2.35, y: 0.64, z: 0}
+    - {x: -3.54, y: 4.8835, z: 0}
+    - {x: -2.81, y: 2.4835, z: 0}
+    - {x: -5.16, y: 1.2835, z: 0}
+    - {x: -4.07, y: -0.48650002, z: 0}
+    - {x: 2.85, y: 0.6235, z: 0}
     type: 1
     subdivisionsXSegment: 10
     subdivisions: 50
     controlPoints:
-    - a: {x: -2.81, y: 2.5, z: 0}
+    - a: {x: -2.81, y: 2.4835, z: 0}
       b: {x: 0, y: 0, z: 0}
-    - a: {x: 8.77, y: 1.75, z: 0}
+    - a: {x: 9.77, y: 1.7335, z: 0}
       b: {x: 0, y: 0, z: 0}
-    length: 14.228631
+    length: 14.752386
     isFinalized: 1
     timesTable:
     - 0.02
@@ -525,10 +538,10 @@ MonoBehaviour:
     - 1.0133858
     - 1.2872925
     - 1.5618335
-    - 1.8266473
-    - 2.0721421
-    - 2.2902718
-    - 2.4764175
+    - 1.8266475
+    - 2.0721424
+    - 2.2902722
+    - 2.476418
     - 2.6379128
     - 2.8128119
     - 3.0138266
@@ -542,31 +555,31 @@ MonoBehaviour:
     - 4.9484267
     - 5.1156
     - 5.253398
-    - 5.39169
-    - 5.5462756
-    - 5.7134223
-    - 5.8896055
-    - 6.071861
-    - 6.2581353
-    - 6.447697
-    - 6.6415863
-    - 6.842993
-    - 7.0573626
-    - 7.292076
-    - 7.555737
-    - 7.8599644
-    - 8.224243
-    - 8.646117
-    - 9.118379
-    - 9.632987
-    - 10.18148
-    - 10.75516
-    - 11.345189
-    - 11.942663
-    - 12.53865
-    - 13.124214
-    - 13.690474
-    - 14.228631
+    - 5.392175
+    - 5.5476193
+    - 5.715404
+    - 5.8916245
+    - 6.073138
+    - 6.257962
+    - 6.44576
+    - 6.6383677
+    - 6.8401713
+    - 7.058056
+    - 7.3007865
+    - 7.5780644
+    - 7.902219
+    - 8.292475
+    - 8.745461
+    - 9.253127
+    - 9.806651
+    - 10.39682
+    - 11.014204
+    - 11.649246
+    - 12.292327
+    - 12.933801
+    - 13.564023
+    - 14.173391
+    - 14.752386
   inspectorMode: 0
   pathType: 1
   handlesType: 0
@@ -576,7 +589,23 @@ MonoBehaviour:
   showIndexes: 1
   showWpLength: 1
   pathColor: {r: 1, g: 1, b: 1, a: 0.5}
-  lastSrcPosition: {x: -3.54, y: 4.9, z: 0}
+  lastSrcPosition: {x: -3.54, y: 4.8835, z: 0}
   lastSrcRotation: {x: 0, y: 0, z: 0, w: 1}
   wpsDropdown: 1
   dropToFloorOffset: 0
+--- !u!58 &1156705742
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7808127895342610677}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

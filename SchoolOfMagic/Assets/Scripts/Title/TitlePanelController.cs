@@ -36,7 +36,7 @@ public class TitlePanelController : MonoBehaviour
                 ChangeFirstTitleSelectedButton(firstTitleButtonIndex);
             }
 
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
             {
                 if (firstTitleButtonIndex == 0)
                 {

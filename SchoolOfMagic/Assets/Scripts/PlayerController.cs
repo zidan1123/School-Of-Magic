@@ -8,11 +8,15 @@ public class PlayerController : MonoBehaviour
     private BoxCollider2D m_BoxCollider2D;
     private Rigidbody2D m_Rigidbody2D;
 
+    private SpriteRenderer heart_SpriteRenderer;
+
     private Transform leftArm_ShootPoint;
     private Transform rightArm_ShootPoint;
 
     private Vector2 movement;
     public float speed = 5f;
+    private float slowSpeedFactor = 1.85f;
+    private float nowSlowSpeedFactor = 1;
 
     private float shootTime;
     public float shootCD = 0.1f;
@@ -26,6 +30,8 @@ public class PlayerController : MonoBehaviour
         m_BoxCollider2D = gameObject.GetComponent<BoxCollider2D>();
         m_Rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
 
+        heart_SpriteRenderer = m_Transform.Find("Player_Heart").GetComponent<SpriteRenderer>();
+
         leftArm_ShootPoint = m_Transform.Find("Player_BodyComponents/Player_LeftArm/LeftArm_ShootPoint").GetComponent<Transform>();
         rightArm_ShootPoint = m_Transform.Find("Player_BodyComponents/Player_RightArm/RightArm_ShootPoint").GetComponent<Transform>();
 
@@ -34,6 +40,20 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            heart_SpriteRenderer.enabled = true;
+            nowSlowSpeedFactor = slowSpeedFactor;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            heart_SpriteRenderer.enabled = false;
+            nowSlowSpeedFactor = 1;
+        }
+
         if (Input.GetKey(KeyCode.Z) && Time.time > shootTime + shootCD)
         {
             shootTime = Time.time;
@@ -42,15 +62,26 @@ public class PlayerController : MonoBehaviour
             GameObject go_1 = GameObject.Instantiate<GameObject>(projectile_Normal_Ball, rightArm_ShootPoint.position, Quaternion.identity);
 
             go_0.GetComponent<NormalBall>().ShootedAtDirection(10f, new Vector2(0.125f, 0.125f), Vector2.up, shootColor);
+            go_0.tag = "PlayerProjectile";
             go_1.GetComponent<NormalBall>().ShootedAtDirection(10f, new Vector2(0.125f, 0.125f), Vector2.up, shootColor);
+            go_1.tag = "PlayerProjectile";
         }
     }
 
     void FixedUpdate()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        if(Mathf.Abs(movement.x) > 0 && Mathf.Abs(movement.y) > 0)
+        {
+            m_Rigidbody2D.MovePosition(m_Rigidbody2D.position + movement / 1.4f / nowSlowSpeedFactor * speed * Time.fixedDeltaTime);
+        }
+        else
+        {
+            m_Rigidbody2D.MovePosition(m_Rigidbody2D.position + movement / nowSlowSpeedFactor * speed * Time.fixedDeltaTime);
+        }
+    }
 
-        m_Rigidbody2D.MovePosition(m_Rigidbody2D.position + movement * speed * Time.fixedDeltaTime); 
+    private void Dead()
+    {
+        GameObject.Destroy(gameObject);
     }
 }

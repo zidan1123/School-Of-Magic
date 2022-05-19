@@ -17,9 +17,9 @@ public class GameBGMoving : MonoBehaviour
 
     private void Update()
     {
-        if(m_Transform.position.y <= -32.35f)
+        if(m_Transform.position.y <= -32.495f)
         {
-            m_Transform.position = alternatingPicture.transform.position + new Vector3(0, 27.69628f, 0);
+            m_Transform.position = alternatingPicture.transform.position + new Vector3(0, 27.865f, 0);
         }
     }
 
