@@ -45,7 +45,7 @@ public class Enemy_0_00 : MonoBehaviour
         m_Transform = gameObject.GetComponent<Transform>();
 
         player_Transform = GameObject.Find("Player/Player_BodyAndBodyBorder").GetComponent<Transform>();
-        Debug.Log(player_Transform.gameObject.name);
+        
         projectile_Normal_Ball = Resources.Load<GameObject>("Prefabs/Projectile/Normal_Ball");
 
         testTime = Time.time;
@@ -105,15 +105,34 @@ public class Enemy_0_00 : MonoBehaviour
     {
         float GunPointLeftAngle = ((180 - circleGunPointAngle) / 2) + 90;  //为了直接在Inspector面板调试，放在这里  //枪口最左边的角度(不是第一颗子弹发射的地方！)
         float columnsAngleDistance = circleGunPointAngle / (column + 1);   //为了直接在Inspector面板调试，放在这里
-        float sectorLeft = ((180 - sectorAngle) / 2) + 90;                 //为了直接在Inspector面板调试，放在这里
+        float sectorLeft = ((180 - sectorAngle) / 2) + 90;                 //为了直接在Inspector面板调试，放在这里  //扩散角度的伞形区域  //以上为0度，枪口最左边的角度(不是第一颗子弹发射的地方！)
         float sectorDistance = sectorAngle / (column + 1);                 //为了直接在Inspector面板调试，放在这里
+
+        float offsetAngle = 0;
+
+        if (m_Transform.position.x - player_Transform.position.x >= 0)
+        {
+            offsetAngle = -180 + Vector2.Angle(m_Transform.up, player_Transform.position - m_Transform.position);
+            Debug.Log(Vector2.Angle(m_Transform.up, player_Transform.position - m_Transform.position));
+            Debug.Log(offsetAngle);
+        }
+        else
+        {
+            offsetAngle = 180 - Vector2.Angle(m_Transform.up, player_Transform.position - m_Transform.position);
+            Debug.Log(Vector2.Angle(m_Transform.up, player_Transform.position - m_Transform.position));
+            Debug.Log(offsetAngle);
+        }
+
+        GunPointLeftAngle += offsetAngle;
+        sectorLeft += offsetAngle;
 
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < column; j++)
             {
+                
                 GameObject go = GameObject.Instantiate<GameObject>(projectile_Normal_Ball, m_Transform.position + GetCircleGunPoints(GunPointLeftAngle + columnsAngleDistance * (j + 1)), Quaternion.identity);
-                go.GetComponent<NormalBall>().ShootedAtDirection(3.5f - i * projectileBtwSpeed, new Vector2(0.15f, 0.15f), player_Transform.position - m_Transform.position, shootColor);
+                go.GetComponent<NormalBall>().ShootedAtAngle(3.5f - i * projectileBtwSpeed, new Vector2(0.15f, 0.15f), sectorLeft + sectorDistance * (j + 1), shootColor);
                 go.GetComponent<SpriteRenderer>().sortingLayerName = "EnemiesProjectile";
                 go.tag = "EnemiesProjectile";
             }

@@ -33,7 +33,7 @@ public class GameBGMoving : MonoBehaviour
         m_Transform = gameObject.transform;
 
         string thisAlternatingPictureIndex =  gameObject.name.Substring(gameObject.name.Length - 1);
-        Debug.Log(thisAlternatingPictureIndex);
+        
         if (thisAlternatingPictureIndex == "0") 
             alternatingPicture = GameObject.Find(gameObject.name.Substring(0, gameObject.name.Length - 1) + "1");
         else

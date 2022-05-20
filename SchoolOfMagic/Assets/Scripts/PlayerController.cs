@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         m_Transform = gameObject.GetComponent<Transform>(); 
         m_BoxCollider2D = gameObject.GetComponent<BoxCollider2D>();
         m_Rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
-
+        
         heart_SpriteRenderer = m_Transform.Find("Player_Heart").GetComponent<SpriteRenderer>();
 
         leftArm_ShootPoint = m_Transform.Find("Player_BodyComponents/Player_LeftArm/LeftArm_ShootPoint").GetComponent<Transform>();

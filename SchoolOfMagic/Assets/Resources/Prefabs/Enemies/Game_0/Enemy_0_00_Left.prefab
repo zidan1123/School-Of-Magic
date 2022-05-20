@@ -97,14 +97,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c155cfaa15e8af449b02ee2e153831a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  row: 3
-  column: 3
+  row: 0
+  column: 1
   circleGunPointAngle: 0
   circleGunPointRadius: 0
-  sectorAngle: 0
+  sectorAngle: 45
   shootDelay: 1
   shootColor: {r: 0.15686275, g: 0.16862746, b: 1, a: 1}
-  projectileBtwSpeed: 0.2
+  projectileBtwSpeed: 1
   testCD: 2
 --- !u!114 &7808127895342610633
 MonoBehaviour:

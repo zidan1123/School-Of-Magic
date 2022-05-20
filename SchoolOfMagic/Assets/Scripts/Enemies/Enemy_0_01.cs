@@ -106,19 +106,55 @@ public class Enemy_0_01 : MonoBehaviour
 
         for (int i = 0; i < row; i++)
         {
+            //for (int j = 0; j < column; j++)
+            //{
+            //    if (circleGunPointAngle % 360 == 0) 
+            //    {
+            //        GunPointLeftAngle = (360 / column) / 2;
+            //        columnsAngleDistance = 360 / column;
+            //        sectorLeft = (sectorAngle / column) / 2;
+            //        sectorDistance = sectorAngle / column;
+
+            //        GameObject go = GameObject.Instantiate<GameObject>(projectile_Normal_Ball, m_Transform.position + GetCircleGunPoints(GunPointLeftAngle + columnsAngleDistance * j), Quaternion.identity);
+            //        go.GetComponent<NormalBall>().ShootedAtAngle(3.5f - i * projectileBtwSpeed, new Vector2(0.15f, 0.15f), sectorLeft + sectorDistance * j, shootColor);
+            //        go.GetComponent<SpriteRenderer>().sortingLayerName = "EnemiesProjectile";
+            //        go.tag = "EnemiesProjectile";
+            //        //Debug.Log(m_Transform.position);
+            //    }
+            //    else
+            //    {
+            //        GameObject go = GameObject.Instantiate<GameObject>(projectile_Normal_Ball, m_Transform.position + GetCircleGunPoints(GunPointLeftAngle + columnsAngleDistance * (j + 1)), Quaternion.identity);
+            //        go.GetComponent<NormalBall>().ShootedAtAngle(3.5f - i * projectileBtwSpeed, new Vector2(0.15f, 0.15f), sectorLeft + sectorDistance * (j + 1), shootColor);
+            //        go.GetComponent<SpriteRenderer>().sortingLayerName = "EnemiesProjectile";
+            //        go.tag = "EnemiesProjectile";
+            //    }
+            //}
             for (int j = 0; j < column; j++)
             {
-                if (circleGunPointAngle % 360 == 0) 
+                if (circleGunPointAngle % 360 == 0)
                 {
                     GunPointLeftAngle = (360 / column) / 2;
                     columnsAngleDistance = 360 / column;
                     sectorLeft = (sectorAngle / column) / 2;
                     sectorDistance = sectorAngle / column;
 
-                    GameObject go = GameObject.Instantiate<GameObject>(projectile_Normal_Ball, m_Transform.position + GetCircleGunPoints(GunPointLeftAngle + columnsAngleDistance * j), Quaternion.identity);
+                    Vector2 point1 = Vector3.up.normalized * circleGunPointRadius;
+                    float sin = Mathf.Sin((Mathf.PI * (GunPointLeftAngle + columnsAngleDistance * j)) / 180);
+                    float cos = Mathf.Cos((Mathf.PI * (GunPointLeftAngle + columnsAngleDistance * j ))/ 180);
+                    float newX = point1.x * cos + point1.y * sin;
+                    float newY = point1.x * -sin + point1.y *cos;
+                    Vector3 point2 = new Vector3(newX, newY, 0);
+
+                    //Vector3 point3 = Quaternion.AngleAxis(-GunPointLeftAngle - columnsAngleDistance * j, m_Transform.position);
+                    Debug.Log(Quaternion.AngleAxis(-GunPointLeftAngle - columnsAngleDistance * j, m_Transform.position));
+
+                    //Debug.Log(point2);
+                    GameObject go = GameObject.Instantiate<GameObject>(projectile_Normal_Ball, Quaternion.AngleAxis(-GunPointLeftAngle - columnsAngleDistance * j, m_Transform.position) * (m_Transform.position), Quaternion.identity);
                     go.GetComponent<NormalBall>().ShootedAtAngle(3.5f - i * projectileBtwSpeed, new Vector2(0.15f, 0.15f), sectorLeft + sectorDistance * j, shootColor);
                     go.GetComponent<SpriteRenderer>().sortingLayerName = "EnemiesProjectile";
                     go.tag = "EnemiesProjectile";
+                    
+                    //Debug.Log(m_Transform.position);
                 }
                 else
                 {
@@ -127,10 +163,13 @@ public class Enemy_0_01 : MonoBehaviour
                     go.GetComponent<SpriteRenderer>().sortingLayerName = "EnemiesProjectile";
                     go.tag = "EnemiesProjectile";
                 }
+                //Time.timeScale = 0;
             }
-            
         }
     }
+
+    
+    
 
     /// <summary>
     /// 获取角色圆形枪口的位置(还未加上角色的位置)
@@ -141,10 +180,10 @@ public class Enemy_0_01 : MonoBehaviour
     {
         float xScale = Mathf.Cos((angle + 90) * Mathf.Deg2Rad);
         float yScale = Mathf.Sin((angle + 90) * Mathf.Deg2Rad);
-
         float x = xScale * circleGunPointRadius;
         float y = yScale * circleGunPointRadius;
-        Debug.Log(new Vector3(x, y, 0));
+
+        //Debug.Log(new Vector3(x, y, 0));
         return new Vector3(x, y, 0);
     }
 
